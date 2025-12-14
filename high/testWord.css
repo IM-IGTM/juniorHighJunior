@@ -1,0 +1,470 @@
+/* =========================
+   공통: 전체 배경 & 레이아웃
+   ========================= */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", sans-serif;
+  background: #f3f4f6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center; /* 가로 가운데 */
+  align-items: center; /* 세로 가운데 */
+}
+
+/* =========================
+   퀴즈 + 정답 패널 레이아웃
+   ========================= */
+.page {
+  display: flex;
+  gap: 24px; /* 왼쪽/오른쪽 간격 */
+  align-items: flex-start;
+}
+
+/* 왼쪽: 퀴즈 박스 */
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  padding: 24px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 1300px; /* 넓은 가로 영역 */
+  box-sizing: border-box;
+}
+
+/* 학생 이름 표시 */
+#studentName {
+  min-height: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* 문제 라벨 */
+.label,
+#questionLabel {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 8px 0 12px;
+  color: #111827;
+}
+
+.choice-row {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.choice-row button {
+  width: 220px;
+  height: auto; /* 내용 늘어나면 자동 높이 */
+  min-height: 56px; /* 기본 높이는 유지 */
+  padding: 10px;
+  font-size: 20px;
+  line-height: 1.3;
+  white-space: normal; /* 줄바꿈 허용 */
+  word-break: keep-all; /* 단어 단위로 줄바꿈(영어는 자연스럽게) */
+  overflow: visible; /* 숨기지 않음 */
+  border-radius: 12px;
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+}
+
+/* 퀴즈에서 쓰는 버튼 스타일 (가로 + 크게) */
+.quiz-container button {
+  flex: 1; /* 가능한 공간을 나눠 가짐 */
+  min-width: 120px; /* 너무 좁아지지 않게 */
+  padding: 35px 60px; /* 클릭 영역 크게 */
+  margin-bottom: 0;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.quiz-container button.selected {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #1d4ed8;
+}
+
+.quiz-container button:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.quiz-container button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* 오른쪽 정답 패널 */
+.answer-panel {
+  background: #ffffff;
+  padding: 16px 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  min-width: 260px;
+  box-sizing: border-box;
+}
+
+.answer-panel h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+/* 정답 테이블 (가로형) */
+.answer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+  display: table; /* 혹시 깨졌을 경우를 대비한 리셋 */
+}
+
+.answer-table tr {
+  display: table-row;
+}
+
+.answer-table th,
+.answer-table td {
+  display: table-cell;
+  border: 1px solid #e5e7eb;
+  padding: 6px 8px;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.answer-table thead th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+/* 문제 title 칸 */
+.question-title-cell {
+  font-weight: 600;
+}
+
+/* 선택한 답 칸 */
+.answer {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* =========================
+   (신버전) TOESEL 스타일 시험 화면
+   ========================= */
+
+/* 전체 레이아웃: 왼쪽 설명 + 오른쪽 시험 */
+.exam-page {
+  display: flex;
+  gap: 32px;
+  width: 1100px;
+  max-width: 95vw;
+}
+
+/* -------- 왼쪽 컨트롤 패널 -------- */
+.control-panel {
+  width: 260px;
+  background: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  padding: 20px 18px;
+  box-sizing: border-box;
+}
+
+.badge-running {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b91c1c, #dc2626);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.control-section {
+  font-size: 13px;
+  color: #111827;
+}
+
+.control-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.control-keys {
+  display: flex;
+  gap: 8px;
+}
+
+.key-box {
+  width: 40px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  overflow: hidden;
+  font-size: 11px;
+  text-align: center;
+}
+
+.key-top {
+  background: #e5e7eb;
+  padding: 2px 0;
+}
+
+.key-bottom {
+  padding: 4px 0;
+}
+
+.space-box {
+  margin-top: 8px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px dashed #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* -------- 오른쪽 시험 패널 -------- */
+.test-panel {
+  flex: 1;
+  background: #f9fafb;
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.16);
+  padding: 18px 18px 22px;
+  box-sizing: border-box;
+}
+
+/* 상단 헤더 */
+.test-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.timer-icon {
+  font-size: 14px;
+}
+
+.question-number {
+  background: #2563eb;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 46px;
+  text-align: center;
+}
+
+.instruction {
+  flex: 1;
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+/* 문제 카드 */
+.question-card {
+  margin-top: 6px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 32px 26px 20px;
+  box-sizing: border-box;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.student-name {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.question-kor {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin: 30px 0 40px;
+}
+
+/* 보기 버튼들 (신버전) */
+.choices-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.choice-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: #f3f4f6;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  padding: 8px 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.choice-index {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.choice-text {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* hover / active */
+.choice-btn:hover {
+  background: #e0f2fe;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+}
+
+.choice-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* 정답 선택됐을 때 JS에서 .selected 추가 */
+.choice-btn.selected {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.choice-btn.selected .choice-text,
+.choice-btn.selected .choice-index {
+  color: #ffffff;
+}
+
+/* 하단 힌트 텍스트 */
+.hint-text {
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: right;
+}
+
+.kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+/* 틀린 답 표시용 스타일 */
+.answer-table .wrong-cell {
+  background: #fee2e2; /* 연한 빨간 배경 */
+  color: #b91c1c; /* 진한 빨간 글씨 */
+  font-weight: 700;
+}
+
+.question-img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin: 10px 0 15px;
+}
+
+/* 시험 종료 문구 박스 */
+.examOver {
+  display: none; /* JS에서 block으로 켜줌 */
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  text-align: center;
+  margin-left: 24px; /* 퀴즈 박스랑 약간 띄우기 */
+}
+
+.examOver p {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* 결과보기 버튼 */
+.resultOk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.45);
+  transition: transform 0.08s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+}
+
+.resultOk:hover {
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.55);
+  opacity: 0.96;
+}
+
+.resultOk:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+}
+
+#questionLabel {
+  white-space: pre-line; /* 줄바꿈(\n) 표시 */
+  text-align: center; /* 가운데 정렬 */
+  line-height: 1.8; /* 줄 간격 증가 */
+}
